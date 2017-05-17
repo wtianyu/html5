@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8" />
+
+<style>
+    .buttonwy {
+        border: none;
+        color: white;
+        overflow: hidden;
+        margin: 1rem;
+        padding: 0;
+        text-transform: uppercase;
+        width: 150px;
+        height: 40px;
+        border-radius: 10em;
+        background-color: #426fc5;
+        position: relative;
+        cursor: pointer;
+    }
+</style>
+
+<head>
+    <title>自定义alert</title>
+
+</head>
+
+<body>
+
+    <div style="width: 100%; text-align: center">
+        <input type="button" class="buttonwy" onclick="showAlert()" value="查看演示">
+    </div>
+</body>
+<style type="text/css">
+    .alertBody {
+        width: 300px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .alertTitle {
+        background: #4499ff;
+        color: white;
+        text-align: center;
+        font-family: 微软雅黑;
+        font-size: 18px;
+        padding: 10px;
+    }
+    
+    .alertInfo {
+        background: #eeeeee;
+        color: #333333;
+        font: "微软雅黑" 18px;
+        padding: 10px;
+        text-indent: 2em;
+        border-bottom: 1px solid #999999;
+    }
+    
+    .alertBottom {
+        background: #eeeeee;
+        text-align: center;
+        padding: 15px;
+    }
+    
+    .alertButton {
+        border-radius: 5px;
+        background: #4499ff;
+        color: white;
+        font: "微软雅黑" 18px;
+        padding: 10px 40px;
+    }
+    
+    .alertButton:hover {
+        background: #66bbff;
+    }
+</style>
+
+<script type="text/javascript">
+    var Alert = {
+        new: function(title, info) {
+            var alert = {};
+            var init = () => {
+                alert.body = document.createElement("div"); //容器
+                alert.title = document.createElement("div"); //标题
+                alert.info = document.createElement("div"); //内容
+                alert.bottom = document.createElement("div"); //底部按钮容器
+                alert.button = document.createElement("button"); //底部按钮
+
+                alert.body.className = "alertBody";
+                alert.title.className = "alertTitle";
+                alert.info.className = "alertInfo";
+                alert.bottom.className = "alertBottom";
+                alert.button.className = "alertButton";
+                alert.body.appendChild(alert.title);
+                alert.body.appendChild(alert.info);
+                alert.body.appendChild(alert.bottom);
+                alert.bottom.appendChild(alert.button);
+
+                alert.title.innerText = title;
+                alert.info.innerText = info;
+                alert.button.innerText = "确定";
+                alert.button.onclick = alert.close;
+            }; //初始化
+            alert.show = function() {
+                init();
+                document.body.appendChild(alert.body);
+            }; //显示弹框
+            alert.close = function() {
+                document.body.removeChild(alert.body);
+                alert = undefined;
+            }; //关闭弹框
+            return alert;
+        }
+    };
+
+    function showAlert() {
+        Alert.new("信息提示", "当你看到这个弹出的时候，说明代码正确了。").show();
+    }
+</script>
+
+</html>

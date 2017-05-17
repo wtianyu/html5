@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8" />
+
+<head>
+    <title>h5的基本动画效果(多边形碰撞)</title>
+    <script src="js/addPolygon.js"></script>
+    <script src="js/drawPolygon.js"></script>
+    <style>
+        .buttonwy {
+            border: none;
+            color: white;
+            overflow: hidden;
+            margin: 1rem;
+            padding: 0;
+            text-transform: uppercase;
+            width: 150px;
+            height: 40px;
+            border-radius: 10em;
+            background-color: #426fc5;
+            position: relative;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<script>
+    var timer;
+    var width = screen.width * 2 / 3 - 20;
+    var height = 450;
+    var lineWidth = 5;
+    var err_round = 3; //误差范围
+    var polygon = []; //多边形
+    var polygonCount = 300;
+    var canStokeColor = "red";
+    var stokeColor = "red";
+    var collColor = "pink";
+    var backColor = "black";
+    var fpsTextColor = "yellow";
+    var fps = 0;
+    var time = 0;
+    var fpsTotal = 10; //fps显示间隔
+    var fpsCount = 10;
+    var collisionList = [];
+    var isTreeOpen = false;
+    var treeCount = 2; //四叉树分层
+    var treeAreas = [];
+
+    //添加多边形
+    function addPolygon() {
+        var polygonClass = {};
+        polygonClass.id = polygonCount;
+        for (var i = 0; i < pointsCount; i++) {
+            if (i == pointsCount - 1) {
+                polygonClass.x += points[i].x;
+                polygonClass.y += points[i].y;
+            } else if (i == 0) {
+                polygonClass.x = points[i].x + ";";
+                polygonClass.y = points[i].y + ";";
+            } else {
+                polygonClass.x += points[i].x + ";";
+                polygonClass.y += points[i].y + ";";
+            }
+        }
+        polygonClass.vx = 1 + Math.random() * 4;
+        polygonClass.vy = 1 + Math.random() * 4;
+        polygonClass.isColl = false;
+        polygon[polygonCount] = polygonClass;
+        polygonCount++;
+        btnAdd.style.display = "none";
+        btnDraw.style.display = "";
+    }
+
+    function startDraw() {
+        btnAdd.style.display = "";
+        btnDraw.style.display = "none";
+        initData();
+    }
+
+    function startDraw2() {
+        if (timer != null) {
+            clearInterval(timer);
+        }
+    }
+
+    function startOptim() {
+        if (!isTreeOpen) {
+            document.getElementById("optimBtn").value = "停止四叉树优化";
+            isTreeOpen = true;
+        } else {
+            document.getElementById("optimBtn").value = "启动四叉树优化";
+            isTreeOpen = false;
+        }
+        document.getElementById("optimBtn").blur();
+    }
+</script>
+
+<body>
+    <div style="display:none" id="canvasDiv1">
+        <canvas id="canvas1Bottom" style="background: pink;position: absolute; left: 20; top: 0;"></canvas>
+        <canvas id="canvas1Top" style="position: absolute; left: 20; top: 0;" onmousedown="mouseKey(1,event)" onmouseup="mouseKey(2,event)" onmousemove="mouseKey(3,event)"></canvas>
+        <canvas id="canvas2" style="background:paleturquoise;position: absolute; left: 20; top: 0;"></canvas>
+    </div>
+    <div style="width: 100%;display:none" id="canvasDiv2">
+        <input type="button" id="show_btn" style="margin-top: 450px;margin-left: 100px;display: none" class="buttonwy" onclick="addPolygon()" value="添加多边形">
+        <input type="button" id="draw_btn" style="margin-top: 450px;margin-left: 100px;" class="buttonwy" onclick="startDraw()" value="开始绘制图形">
+        <input type="button" id="optimBtn" style="margin-top: 450px;margin-right: 100px;" class="buttonwy" onclick="startOptim()" value="启动优化">
+    </div>
+    <div style="width: 100%; text-align: center">
+        <input type="button" id="show_btn_main" class="buttonwy" onclick="initMain('canvas2')" value="查看演示">
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8" />
+
+<head>
+    <title>h5画图</title>
+    <script src="js/addPolygon.js"></script>
+    <style>
+        .buttonwy {
+            border: none;
+            color: white;
+            overflow: hidden;
+            margin: 1rem;
+            padding: 0;
+            text-transform: uppercase;
+            width: 150px;
+            height: 40px;
+            border-radius: 10em;
+            background-color: #426fc5;
+            position: relative;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<script>
+    function addPolygon() {
+        context2.beginPath();
+        context2.strokeStyle = lineColor;
+        context2.lineWidth = lineWidth;
+
+        for (var i = 0; i < pointsCount; i++) {
+            if (i == 0) { //结束点
+                context2.moveTo(points[i].x, points[i].y)
+            } else {
+                context2.lineTo(points[i].x, points[i].y);
+            }
+        }
+
+        // for (var i = 0; i < pointsCount; i++) {
+        //     if (points[i].lineCount == 1) { //结束点
+        //         context2.moveTo(points[points[0].moveFlag].x, points[points[0].moveFlag].y)
+        //         context2.lineTo(points[i].x, points[i].y);
+        //         console.log(i);
+        //     }
+        //     if (i != 0) {
+        //         context2.moveTo(points[points[i].moveFlag].x, points[points[i].moveFlag].y)
+        //         context2.lineTo(points[i].x, points[i].y);
+        //         console.log(i);
+        //     }
+
+        // }
+        context2.closePath();
+        context2.stroke();
+        btnAdd.style.display = "none";
+        btnDraw.style.display = "";
+    }
+
+    function startDraw() {
+        btnAdd.style.display = "";
+        btnDraw.style.display = "none";
+        initData();
+    }
+</script>
+
+
+<body onload="init()">
+    <div style="display:inline-block" id="canvasDiv">
+        <canvas id="canvas1Bottom" style="background: pink;position: absolute; left: 20; top: 0;"></canvas>
+        <canvas id="canvas1Top" style="position: absolute; left: 20; top: 0;" onmousedown="mouseKey(1,event)" onmouseup="mouseKey(2,event)" onmousemove="mouseKey(3,event)"></canvas>
+        <canvas id="canvas2" style="background:paleturquoise;position: absolute; left: 20; top: 0;"></canvas>
+    </div>
+    <div style="width: 100%;">
+        <input type="button" id="show_btn" style="margin-top: 450px;margin-left: 100px;display: none" class="buttonwy" onclick="addPolygon()" value="添加多边形">
+        <input type="button" id="draw_btn" style="margin-top: 450px;margin-left: 100px;" class="buttonwy" onclick="startDraw()" value="开始绘制图形">
+    </div>
+</body>
+
+</html>

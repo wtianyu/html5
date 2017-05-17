@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset="UTF-8" />
+<link rel="stylesheet" type="text/css" href="css/public.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+
+<head>
+    <title>动态修改table</title>
+    <script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js">
+    </script>
+    <script>
+        var rowNum = -1;
+
+        function doAddRecord() {
+            rowNum++;
+            var table = document.getElementById("table_info");
+            var newrow, newcell;
+            newrow = table.insertRow();
+
+            var value = "0" + rowNum;
+            newcell = newrow.insertCell();
+            newcell.width = "20%";
+            newcell.style.cssText = "text-align: center;";
+            newcell.insertAdjacentHTML("BeforeEnd", "<input type='text' value=" + value + "> ");
+
+            value = "1" + rowNum;
+            newcell = newrow.insertCell();
+            newcell.width = "20%";
+            newcell.style.cssText = "text-align: center;";
+            newcell.insertAdjacentHTML("BeforeEnd", "<input type='text' value=" + value + "> ");
+
+            value = "2" + rowNum;
+            newcell = newrow.insertCell();
+            newcell.width = "20%";
+            newcell.style.cssText = "text-align: center;";
+            newcell.insertAdjacentHTML("BeforeEnd", "<input type='text' value=" + value + "> ");
+
+            value = "3" + rowNum;
+            newcell = newrow.insertCell();
+            newcell.width = "20%";
+            newcell.style.cssText = "text-align: center;";
+            newcell.insertAdjacentHTML("BeforeEnd", "<input type='text' value=" + value + "> ");
+
+            newcell = newrow.insertCell();
+            newcell.width = "20%";
+            newcell.style.cssText = "text-align: center;";
+            newcell.insertAdjacentHTML("BeforeEnd", "<input type='button' onclick='delRow(this)' value='删除'> ");
+        }
+
+
+        // jquery动态删除行
+        function delRow(clickTd) {
+            var tr = $(clickTd).parent().parent();
+            tr.remove();
+        }
+
+        // js动态删除行
+        function deleteCY() {
+            rowObj = getRowObj();
+            rowObj.removeNode(true);
+        }
+
+        function getRowObj() {
+            var eSrc = window.event.srcElement;
+            event.returnValue = false;
+            while (true) {
+                if (eSrc.tagName.toUpperCase() == "TR") {
+                    return eSrc;
+                    break;
+                }
+                eSrc = eSrc.parentElement;
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <form action="">
+        <table id="table_info" class="table_list">
+            <col widh="20%" />
+            <col widh="20%" />
+            <col widh="20%" />
+            <col widh="20%" />
+            <col widh="20%" />
+            <tr>
+                <th>第一列</th>
+                <th>第二列</th>
+                <th>第三列</th>
+                <th>第四列</th>
+                <th>第五列</th>
+            </tr>
+        </table>
+        <input type="button" id="btn" value="增加记录" onclick="doAddRecord()" />
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,146 @@
+.border {
+    background: #dddddd;
+    padding: 50px;
+}
+
+.borderRadius {
+    border: 2px solid #ff0000;
+    padding: 10px;
+    width: 300px;
+    border-radius: 25px;
+}
+
+.borderShadow {
+    width: 300px;
+    height: 100px;
+    background-color: yellow;
+    /* box-shadow:*水平阴影的位置 *垂直阴影的位置 模糊距离 阴影的尺寸 阴影的颜色 inset(可选显示位置) */
+    box-shadow: 10px 10px 5px 5px #000000 inset;
+}
+
+.borderImage1 {
+    border: 15px solid transparent;
+    width: 300px;
+    padding: 10px 20px;
+    -webkit-border-image: url(../img/borderImage.png) 40 40 round;
+    /* Safari 5 and older */
+    -o-border-image: url(../img/borderImage.png) 30 30 round;
+    /* Opera */
+    border-image: url(../img/borderImage.png) 30px 30px round;
+}
+
+.borderImage2 {
+    border: 15px solid transparent;
+    width: 300px;
+    padding: 10px 20px;
+    -webkit-border-image: url(../img/borderImage.png) 30 30 stretch;
+    /* Safari 5 and older */
+    -o-border-image: url(../img/borderImage.png) 30 30 stretch;
+    /* Opera */
+    border-image: url(../img/borderImage.png) 30 30 stretch;
+}
+
+.colorClass {
+    background: #dddddd;
+    padding: 50px;
+}
+
+.grad1 {
+    height: 120px;
+    background: -webkit-linear-gradient(red, blue);
+    /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(red, blue);
+    /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(red, blue);
+    /* Firefox 3.6 - 15 */
+    background: linear-gradient(red, blue);
+    /* 标准的语法（必须放在最后） */
+}
+
+.grad2 {
+    height: 120px;
+    background: -webkit-linear-gradient(left, red, blue);
+    /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(right, red, blue);
+    /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(right, red, blue);
+    /* Firefox 3.6 - 15 */
+    background: linear-gradient(to right, red, blue);
+    background: linear-gradient(to right, rgba(255, 0, 0, 0), rgba(255, 0, 0, 1));
+    /* 标准的语法（必须放在最后） */
+}
+
+.text {
+    background: #dddddd;
+    padding: 50px;
+}
+
+.text1 {
+    text-shadow: 5px 5px 3px #FF0000;
+}
+
+#rotate2D,
+#rotate3D {
+    width: 80px;
+    height: 70px;
+    color: white;
+    position: relative;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 10px;
+    float: left;
+    margin-right: 50px;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    background: red;
+    margin: 10px;
+    transition: transform 4s;
+    /*transition-property: transform;
+    transition-duration: 2s;*/
+}
+
+#animate3 {
+    width: 80px;
+    height: 70px;
+    color: white;
+    position: relative;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 10px;
+    float: left;
+    margin-right: 50px;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    background: red;
+    margin: 10px;
+    -webkit-transition: -webkit-transform 1s, opacity 1s, background 1s, width 1s, height 1s, font-size 1s;
+    -webkit-border-radius: 5px;
+    -o-transition-property: width, height, -o-transform, background, font-size, opacity;
+    -o-transition-duration: 1s, 1s, 1s, 1s, 1s, 1s;
+    -moz-transition-property: width, height, -o-transform, background, font-size, opacity;
+    -moz-transition-duration: 1s, 1s, 1s, 1s, 1s, 1s;
+    transition-property: width, height, transform, background, font-size, opacity;
+    transition-duration: 2s, 2s, 2s, 2s, 2s, 2s;
+    border-radius: 5px;
+    opacity: 0.4;
+}
+
+#rotate2D:hover {
+    transform: rotate(360deg);
+}
+
+#rotate3D:hover {
+    transform: rotateY(360deg)
+}
+
+#animate3:hover {
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+    opacity: 1;
+    background: #1ec7e6;
+    width: 120px;
+    height: 90px;
+    font-size: 22px;
+}

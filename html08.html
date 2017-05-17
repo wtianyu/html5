@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8" />
+<title>h5的基本动画效果(贪食蛇的实现)</title>
+<script>
+    //一些基本参数
+    var node_count = 5;
+    var node_r = 5;//每个身体节点的半径
+    var node_distance = 2;//每个身体节点间隔距离
+    var snaker_speed = 20;//移动速度:数字越大速度越慢
+    var snaker_speed_count = 0;//移动速度:数字越大速度越慢
+    var snaker_speed_dir = 0;//1为左，2为上，3为右，4为下
+    //为了防止连续变换方向设置参数判断移动后才能变换
+    var isMove = 0;
+    //窗口数据
+    var width = 900;
+    var height = 500;
+    var lineWidth = 5;
+    //食物数据
+    var isfood = 0;//是否出现了食物
+    var isfood_x;
+    var isfood_y;
+    //贪食蛇的身体
+    var snakerBody = new Array();
+    snakerBody[0] = (Math.ceil(Math.random()*100)+100)+":"+(Math.ceil(Math.random()*100)+90);//x范围100-110,y的范围90-100
+    for(let i = 1;i<node_count;i++){
+        //snakerBody[i] = snakerBody[i-1]//'rgba(0,0,255,0.1)';//设置每个节点的颜色
+        var sy = snakerBody[i-1];
+        var x = parseInt(sy.split(":")[0])-node_distance*node_r;
+        var y = parseInt(sy.split(":")[1]);
+        snakerBody[i] = x+":"+y;
+    }
+    console.log(snakerBody.length);
+
+    function init(id){
+        drawInit(id);
+    }
+
+    function drawInit(id){
+        var canvas = document.getElementById(id);
+        if(canvas == null){
+            console.log('获取的画布为null');
+            return false;
+        }
+        drawSnaker(canvas);
+    }
+
+
+    function drawSnaker(canvas){
+        canvas.style.display="";
+        var context = canvas.getContext('2d');
+        context.strokeStyle = "red";
+        context.lineWidth=lineWidth;
+        context.strokeRect(0,0,width,height);
+
+        context.fillStyle = "red";
+        var x = Math.ceil(Math.random()*100)+80;
+        var y = Math.ceil(Math.random()*100)+60;
+        var r = Math.ceil(Math.random()*20)+20;
+        var vx = Math.ceil(Math.random()*3);
+        var vy = Math.ceil(Math.random()*3);
+        vx_con = vx;
+        vy_con = vy;
+        //setInterval(drawCirl(x,y,r,vx,vy,width,height,context),100);
+        setInterval(function(){
+            //计数准备移动
+            snaker_speed_count++;
+            if(snaker_speed_count==snaker_speed){
+                snaker_speed_count = 0;
+                snakerMove();
+                findFood();
+            }
+            //擦除
+            context.clearRect(lineWidth,lineWidth,width-lineWidth*2,height-lineWidth*2);
+            //context.clearRect(parseInt(snakerBody[snakerBody.length-1].split(":")[0]),parseInt(snakerBody[snakerBody.length-1].split(":")[1]),parseInt(snakerBody[snakerBody.length-1].split(":")[0])+node_r*node_distance,node_distance*node_r+parseInt(snakerBody[snakerBody.length-1].split(":")[1]));
+            //console.log(parseInt(snakerBody[snakerBody.length-1].split(":")[0])+"擦除坐标"+parseInt(snakerBody[snakerBody.length-1].split(":")[1]));
+            //获取最新速度
+           
+            for(let i = 0;i<snakerBody.length;i++){
+             if(i==0){
+                context.fillStyle = "blue";
+             }else{
+                context.fillStyle = "red";
+             }
+             context.beginPath();
+             var sy = snakerBody[i];
+             var x = parseInt(sy.split(":")[0]);
+             var y = parseInt(sy.split(":")[1]);
+            context.arc(x,y,node_r,0,Math.PI*2,true);
+            context.closePath();
+            context.fill();
+            }
+        },10)
+    }
+
+    function findFood(){
+        if(isfood==0){
+            while(true){
+                var isfood_x = Math.ceil(Math.random()*(width-lineWidth-node_r))+lineWidth+node_r;
+                var isfood_y = Math.ceil(Math.random()*(height-lineWidth-node_r))+lineWidth+node_r;
+                //撞身体判断
+                for(let i = 1;i<snakerBody.length;i++){
+                    var syTemp = snakerBody[i];
+                    var xTemp = parseInt(syTemp.split(":")[0]);
+                    var yTemp = parseInt(syTemp.split(":")[1]);
+                        console.log("x="+x,"xTemp="+xTemp);
+                        console.log("y="+y,"yTemp="+yTemp);
+                    if(Math.abs(xTemp-isfood_x)<1&&Math.abs(yTemp-isfood_y)<1){
+                        break;
+                    }else{
+                        isfood = 1;
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    function isSafe(){
+        console.log(snakerBody);
+        var sy = snakerBody[0];
+        var x = parseInt(sy.split(":")[0]);
+        var y = parseInt(sy.split(":")[1]);
+        //撞墙判断
+        if(x<node_r||x>(width-node_r)||y<node_r||y>(height-node_r)){
+            return false;
+        }
+        //撞身体判断
+        for(let i = 1;i<snakerBody.length;i++){
+            var syTemp = snakerBody[i];
+            var xTemp = parseInt(syTemp.split(":")[0]);
+            var yTemp = parseInt(syTemp.split(":")[1]);
+                console.log("x="+x,"xTemp="+xTemp);
+                console.log("y="+y,"yTemp="+yTemp);
+            if(Math.abs(xTemp-x)<1&&Math.abs(yTemp-y)<1){
+                return false;
+            }
+        }
+        return true;
+    }
+    function snakerMove(){
+        if(!isSafe()){
+                alert("死亡");
+                window.location.reload();
+            }
+        isMove = 1;
+         //snaker向左移动
+        if(snaker_speed_dir==1){
+            var snakerBodyTemp = new Array();
+            for(let i =0;i<snakerBody.length;i++){
+                snakerBodyTemp[i] = snakerBody[i];
+            }
+            for(let i = 1;i<snakerBody.length;i++){
+                var sy = snakerBodyTemp[i-1];
+                var x = parseInt(sy.split(":")[0]);
+                var y = parseInt(sy.split(":")[1]);
+                snakerBody[i] = x+":"+y;
+            }
+            var sy = snakerBody[0];
+            var x = parseInt(sy.split(":")[0])-node_distance*node_r;
+            var y = parseInt(sy.split(":")[1]);
+            snakerBody[0] = x+":"+y;
+        } 
+        //snaker向上移动
+        if(snaker_speed_dir==2){
+            var snakerBodyTemp = new Array();
+            for(let i =0;i<snakerBody.length;i++){
+                snakerBodyTemp[i] = snakerBody[i];
+            }
+            for(let i = 1;i<snakerBody.length;i++){
+                var sy = snakerBodyTemp[i-1];
+                var x = parseInt(sy.split(":")[0]);
+                var y = parseInt(sy.split(":")[1]);
+                snakerBody[i] = x+":"+y;
+            }
+            var sy = snakerBody[0];
+            var x = parseInt(sy.split(":")[0]);
+            var y = parseInt(sy.split(":")[1])-node_distance*node_r;
+            snakerBody[0] = x+":"+y;
+        } 
+        //snaker向右移动
+        if(snaker_speed_dir==3){
+            var snakerBodyTemp = new Array();
+            for(let i =0;i<snakerBody.length;i++){
+                snakerBodyTemp[i] = snakerBody[i];
+            }
+            for(let i = 1;i<snakerBody.length;i++){
+                var sy = snakerBodyTemp[i-1];
+                var x = parseInt(sy.split(":")[0]);
+                var y = parseInt(sy.split(":")[1]);
+                snakerBody[i] = x+":"+y;
+            }
+            var sy = snakerBody[0];
+            var x = parseInt(sy.split(":")[0])+node_distance*node_r;
+            var y = parseInt(sy.split(":")[1]);
+            snakerBody[0] = x+":"+y;
+        } 
+        //snaker向下移动
+        if(snaker_speed_dir==4){
+            var snakerBodyTemp = new Array();
+            for(let i =0;i<snakerBody.length;i++){
+                snakerBodyTemp[i] = snakerBody[i];
+            }
+            for(let i = 1;i<snakerBody.length;i++){
+                var sy = snakerBodyTemp[i-1];
+                var x = parseInt(sy.split(":")[0]);
+                var y = parseInt(sy.split(":")[1]);
+                snakerBody[i] = x+":"+y;
+            }
+            var sy = snakerBody[0];
+            var x = parseInt(sy.split(":")[0]);
+            var y = parseInt(sy.split(":")[1])+node_distance*node_r;
+            snakerBody[0] = x+":"+y;
+        } 
+    }
+
+     function keyDown(e) {
+		var key = e.which;
+        if(key === 32){//空格键开始
+            if(snaker_speed_dir==0){
+                snaker_speed_dir=3;
+            }
+        }
+        if(isMove==1){
+            if(key === 37){//左键
+                if(snaker_speed_dir!=3){
+                    snaker_speed_dir = 1;
+                }
+            }
+            if(key === 39){//右键vx增加
+                if(snaker_speed_dir!=1){
+                    snaker_speed_dir = 3;
+                }
+            }
+            if(key === 40){//下键
+                if(snaker_speed_dir!=2){
+                    snaker_speed_dir = 4;
+                }
+            }
+            if(key === 38){//上键vy增加
+                if(snaker_speed_dir!=4){
+                    snaker_speed_dir = 2;
+                }
+            }
+            isMove = 0;
+        }
+	}
+    //测试按键值
+    function keyDownTest(e) {
+		var key = e.which;
+		alert(key);
+	}
+    document.onkeydown=keyDown;
+    var vx_con;
+    var vy_con;
+    var speed = 1;
+    var vx_max = 8;
+    var vx_min = 1;
+    var vy_max = 8;
+    var vy_min = 1;
+</script>
+
+<body onload="init('canvas_anim_main')">
+    <div style="text-align:center">
+        <canvas style="display:none;" id="canvas_anim_main" width="900" height="500"></canvas>
+    </div>
+</body>
+
+</html>

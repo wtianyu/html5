@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+
+<head>
+    <title>h5的新特性</title>
+    <link rel="stylesheet" type="text/css" href="css/public.css" />
+    <script src="js/alertCustom.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        var progressL = 0;
+
+        function init() {
+            //setTimeout和setInterval的使用:延时和定时
+            var timer = setInterval(function() {
+                progressL++;
+                document.getElementById("progress1").value = progressL;
+                if (progressL == 100) {
+                    clearInterval(timer);
+                }
+                console.log(progressL);
+            }, 50);
+        }
+
+        function setValue() {
+            var label = document.getElementById('label');
+            var textbox = label.control;
+            textbox.value = '10010';
+        }
+
+        function details_show(detail) {
+            var p = document.getElementById("p1");
+            if (detail.open) {
+                p.style.display = "none";
+            } else {
+                p.style.display = "";
+            }
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <!--结构化作用-->
+    <time style="display:none" datetime="2012-12-12">2012年12月12日</time>
+    <form>
+        <table>
+            <col width:50%>
+            <col width:50%>
+            <tr>
+                <td>
+                    <!--oninvalid自定义提示信息，oninput在输入时重置提示信息-->
+                    <input type="text" required oninvalid="setCustomValidity('空信息不能提交哦')" oninput="setCustomValidity('')">
+                </td>
+                <td>
+                    <input type="submit">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <!--在HTML5中，可以在标签内部放置一个表单元素，并且通过该标签的control属性来访问该表单元素-->
+                    <label id="label">  
+                <input type="text" name="text" value="" required oninvalid="setCustomValidity('空信息不能提交哦')" 
+                oninput="setCustomValidity('')"  maxlength="6" placeholder="请输入字符不大于6个">
+            </label>
+                </td>
+                <td>
+                    <input type="button" value="测试control属性" onclick="setValue()">
+                </td>
+            </tr>
+            <tr>
+                <td>输入提示列表</td>
+                <td>
+                    <input type="text" autocomplete="off" list="datalist_name">
+                    <datalist id="datalist_name">
+						<option value="张飞">张飞</option>
+						<option value="关羽">关羽</option>
+						<option value="赵云">赵云</option>
+					</datalist>
+                </td>
+            </tr>
+            <tr>
+                <td>正则测试</td>
+                <td>
+                    <input type="text" placeholder="请输入一个数字和三个大写字母" pattern="[0-9][A-Z]{3}" oninvalid="setCustomValidity('请输入一个数字和三个大写字母')" oninput="setCustomValidity('')">
+                </td>
+            </tr>
+            <tr>
+                <td>时间日期类型</td>
+                <td>
+                    <input type="date">
+                    <input type="time">
+                    <input type="datetime-local">
+                    <input type="month">
+                    <input type="week">
+                </td>
+            </tr>
+            <tr>
+                <td>颜色类型</td>
+                <td>
+                    <input type="color" onchange="alert(this.value)">
+                </td>
+            </tr>
+            <tr>
+                <td>范围选择器</td>
+                <td>
+                    <input type="range" min="0" max="100" step="5" onchange="document.getElementById('output_1').value=this.value">
+                    <output id=output_1>50</output>
+                </td>
+            </tr>
+            <tr>
+                <td>范围选择器</td>
+                <td>
+                    <input type="range" min="0" max="100" step="5" onchange="document.getElementById('output_2').value=this.value">
+                    <output id=output_2>50</output>
+                </td>
+            </tr>
+            <tr>
+                <td>进度条</td>
+                <td>
+                    <progress id="progress1" value="10" max="100"></progress>
+                </td>
+            </tr>
+            <tr>
+                <td>details标签测试展开关闭:</td>
+                <td>
+                    <details onclick="details_show(this)" style="cursor:pointer">
+                        <summary>葫芦娃兄弟</summary>
+                        <p id="p1">葫芦娃，葫芦娃，一棵藤上七朵花</p>
+                    </details>
+                </td>
+            </tr>
+            <tr>
+                <td>1.dialog标签的显示与隐藏
+                </td>
+                <td>
+                    2.改良版的a标签：可以直接下载文件<a href="img/1.jpg" download="labixiaoxin">图片链接</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+
+</html>

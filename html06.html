@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8" />
+<title>h5的基本图形界面</title>
+<script>
+    function init(id) {
+        //drawInit(id);
+        drawInit("canvas_cirl");
+        //drawInit("canvas_line");
+    }
+
+    function drawInit(id) {
+        var canvas = document.getElementById(id);
+        if (canvas == null) {
+            console.log('获取的画布为null');
+            return false;
+        }
+        drawRect(canvas);
+        drawCirl(canvas);
+        drawLine(canvas);
+    }
+
+    //画线
+    function drawLine(canvas) {
+        canvas.style.display = "";
+        var context = canvas.getContext('2d');
+        context.lineWidth = 10;
+        context.lineCap = "round";
+        context.moveTo(20, 20);
+        context.lineTo(200, 200);
+        context.stroke();
+    }
+    //画矩形
+    function drawRect(canvas) {
+        canvas.style.display = "";
+        var context = canvas.getContext('2d');
+        //设置绿色画一个400X300的实心矩形
+        context.fillStyle = "green";
+        context.fillRect(0, 0, 400, 300);
+        //设置红色画图实心区域，设置蓝色空心区域，边框宽度为1
+        //context.fillStyle = "red";
+        context.strokeStyle = "blue";
+        context.lineWidth = 1;
+        //context.fillRect(50, 50, 100, 100);
+        context.strokeRect(50, 50, 100, 100);
+        //清除矩形区域
+        //context.clearRect(0,0,400,300);
+    }
+
+    //画圆
+    /** arc方法参数
+        x	圆的中心的 x 坐标。
+        y	圆的中心的 y 坐标。
+        r	圆的半径。
+        sAngle	起始角，以弧度计。（弧的圆形的三点钟位置是 0 度）。
+        eAngle	结束角，以弧度计。
+        counterclockwise	可选。规定应该逆时针还是顺时针绘图。False = 顺时针，true = 逆时针。
+    */
+    function drawCirl(canvas) {
+        canvas.style.display = "";
+        var context = canvas.getContext('2d');
+        //普通颜色
+        //context.fillStyle = "#eeeeff";
+        //使用渐变颜色
+        var g1 = context.createLinearGradient(0, 0, 0, 300);
+        g1.addColorStop(0, 'rgb(255,255,0)');
+        g1.addColorStop(1, 'rgb(0,255,255)');
+        var g2 = context.createLinearGradient(0, 0, 300, 300);
+        g2.addColorStop(0, 'rgba(0,0,255,0.1)');
+        g2.addColorStop(1, 'rgba(255,0,0,0.5)');
+        context.fillStyle = g1;
+
+        context.fillRect(0, 0, 400, 300);
+        var n = 0;
+        for (let i = 0; i < 10; i++) {
+            //普通顏色
+            context.fillStyle = 'rgba(255,0,0,0.2)';
+            //渐变颜色
+            context.fillStyle = g2;
+            //如果把beginPath和closePath删掉或出现画圆由深至浅
+            //解释：路径没有关闭，第一次画图的路径还存在，第二次画图就会把第一次画图再重复一遍，以此类推
+            context.beginPath();
+            context.arc(i * 25, i * 25, i * 10, 0, Math.PI * 2, true);
+            context.closePath();
+            context.fill();
+        }
+    }
+</script>
+
+<body onload="init('canvas_main')">
+    <canvas style="display:none" id="canvas_main" width="400" height="300"></canvas>
+    <canvas style="display:none" id="canvas_cirl" width="400" height="300"></canvas>
+    <canvas style="display:none" id="canvas_line" width="400" height="300"></canvas>
+</body>
+
+</html>

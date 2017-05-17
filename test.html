@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>html5功能列表</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        
+        img {
+            border: 0;
+        }
+        
+        a {
+            color: #333;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .bd_con4 {
+            background: #E7E2DF;
+            height: 408px;
+            width: 916px;
+            border: 1px solid #CCC;
+            position: relative;
+            margin: 0px auto;
+        }
+        
+        .bd_t3 {
+            font: 18px/45px "Microsoft Yahei";
+            color: #FFF;
+            padding: 0px 14px 14px;
+            height: 45px;
+            text-align: center;
+            position: absolute;
+            left: -1px;
+            top: -1px;
+            background: url(http://demo.lanrenzhijia.com/2014/pic0830/images/bd_bg1.jpg) no-repeat;
+            width: 610px;
+            z-index: 100;
+        }
+        
+        .bd_c4l {
+            background: #F9F1E6;
+            float: left;
+            height: 344px;
+            width: 552px;
+            padding-top: 64px;
+            padding-left: 25px;
+            position: absolute;
+        }
+        
+        .bd_c4l ul li {
+            font: 18px/107px "Microsoft Yahei";
+            color: #FFF;
+            text-align: center;
+            height: 107px;
+            width: 130px;
+            cursor: pointer;
+            background: #707070;
+            margin: 0px 3px 3px 0px;
+            float: left;
+        }
+        
+        .show_button {
+            font-size: 23px;
+            color: #6B0904;
+            text-align: center;
+            height: 67px;
+            width: 130px;
+            cursor: pointer;
+            margin-top: -16px;
+            padding-top: -20px;
+            background: #707070;
+        }
+        
+        .bd_c4l ul .bd_cutLi {
+            background: #6B0904;
+        }
+        
+        .bd_c4r {
+            float: right;
+            width: 336px;
+        }
+        
+        .bd_c4top {
+            height: 333px;
+        }
+        
+        .bd_lbtn {
+            padding: 0px 0px 0px 5px;
+            float: left;
+            width: 23px;
+            background: url(http://demo.lanrenzhijia.com/2014/pic0830/images/bd_lbtn.jpg) no-repeat;
+            display: block;
+            height: 21px;
+            margin-top: 145px;
+        }
+        
+        .bd_rbtn {
+            float: right;
+            width: 19px;
+            padding-top: 0px;
+            padding-right: 9px;
+            display: block;
+            height: 21px;
+            margin-top: 145px;
+            background: url(http://demo.lanrenzhijia.com/2014/pic0830/images/bd_rbtn.jpg) no-repeat;
+        }
+        
+        .bd_lbtn:hover {
+            background: url(http://demo.lanrenzhijia.com/2014/pic0830/images/hbd_lbtn.jpg) no-repeat;
+        }
+        
+        .bd_rbtn:hover {
+            background: url(http://demo.lanrenzhijia.com/2014/pic0830/images/hbd_rbtn.jpg) no-repeat;
+        }
+        
+        .bd_chgBox {
+            float: left;
+            height: 333px;
+            width: 268px;
+            overflow: hidden;
+            position: relative
+        }
+        
+        .bd_long {
+            width: 3216px;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            height: 333px;
+        }
+        
+        .bd_long ul li {
+            height: 333px;
+            width: 268px;
+            float: left;
+            font-family: "Microsoft Yahei";
+        }
+        
+        .bc_chgTitle {
+            height: 54px;
+            text-align: center;
+            width: 268px;
+            padding-top: 9px;
+            font: bold 16px/54px "Microsoft Yahei";
+        }
+        
+        .bd_lbtn img,
+        .bd_rbtn img {
+            cursor: pointer
+        }
+        
+        .bd_long ul li p {
+            font-size: 14px;
+            line-height: 22px;
+            padding-top: 12px;
+        }
+        
+        .buttonwy {
+            border: none;
+            color: white;
+            overflow: hidden;
+            margin: 1rem;
+            padding: 0;
+            text-transform: uppercase;
+            width: 150px;
+            height: 40px;
+            border-radius: 10em;
+            background-color: #426fc5;
+            position: relative;
+            cursor: pointer;
+            margin-top: -15px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 代码 begin -->
+    <div class="bd_con4">
+        <div class="bd_t3">html5功能列表</div>
+        <div class="bd_c4l">
+            <ul id="list_ul1">
+                <!--动态添加数据-->
+            </ul>
+        </div>
+        <div class="bd_c4r">
+            <div class="bd_c4top">
+                <a href="javascript:;" class="bd_lbtn"></a>
+                <div class="bd_chgBox">
+                    <div class="bd_long">
+                        <ul id="list_ul2">
+                            <!--动态添加数据-->
+                        </ul>
+                    </div>
+                </div>
+                <a href="javascript:;" class="bd_rbtn"></a>
+            </div>
+            <center>
+                <input type="button" class="buttonwy" onclick="showHtml()" value="查看演示">
+            </center>
+        </div>
+    </div>
+    <script src="http://www.lanrenzhijia.com/ajaxjs/jquery.min.js"></script>
+    <script>
+        var cutItm = 0;
+        autoInitData();
+
+        function autoInitData() {
+            var data1 = ["alert弹窗", "table处理", "h5的拖拽演示", "小球碰撞",
+                "h5简单标签修改", "关羽", "刘备", "黄飞鸿",
+                "张飞", "关羽", "刘备", "黄飞鸿"
+            ]
+
+            var data2Title = ["alert弹窗", "table处理", "h5的拖拽演示", "小球碰撞",
+                "h5简单标签修改", "关羽", "刘备", "黄飞鸿",
+                "张飞", "关羽", "刘备", "黄飞鸿"
+            ]
+
+            // var data2Img = ["张飞", "关羽", "刘备", "黄飞鸿",
+            //     "张飞", "关羽", "刘备", "黄飞鸿",
+            //     "张飞", "关羽", "刘备", "黄飞鸿"
+            // ]
+
+            var data2Content = ["自定义alert弹窗,不能阻塞线程", "table表格的动态添加和删除",
+                "h5的拖拽，实现拖拽图片到任意位置", "h5画板实现小球碰撞",
+                "h5简单标签修改，包含标签属性，特性等", "关羽", "刘备", "黄飞鸿",
+                "张飞", "关羽", "刘备", "黄飞鸿"
+            ]
+
+            var list_ul1 = document.getElementById("list_ul1");
+            for (var i = 0; i < data1.length; i++) {
+                var li = document.createElement("li");
+                li.innerHTML = data1[i];
+                if (i == 0) {
+                    li.className = "bd_cutLi";
+                }
+                list_ul1.appendChild(li);
+            }
+
+            var list_ul2 = document.getElementById("list_ul2");
+            for (var i = 0; i < data2Title.length; i++) {
+                var li = document.createElement("li");
+                var div = document.createElement("div");
+                div.className = "bc_chgTitle";
+                div.innerHTML = data2Title[i];
+                var img = document.createElement("img");
+                img.src = "http://www.wtianyu.com/Public/img/h5.jpg";
+                img.width = "300";
+                img.height = "200";
+                var p = document.createElement("p");
+                p.innerHTML = data2Content[i];
+                li.appendChild(div);
+                li.appendChild(img);
+                li.appendChild(p);
+                list_ul2.appendChild(li);
+            }
+        }
+
+        function showHtml() {
+            if (cutItm < 9) {
+                window.open("http://www.wtianyu.com/html5/html0" + (cutItm + 1) + ".html");
+            } else {
+                window.open("http://www.wtianyu.com/html5/html" + (cutItm + 1) + ".html");
+            }
+        }
+
+        function autoPlay() {
+            cutItm++;
+            if (cutItm > 11) {
+                cutItm = 0;
+            }
+            $(".bd_c4l li").removeClass("bd_cutLi");
+            $(".bd_c4l li").eq(cutItm).addClass("bd_cutLi");
+            var leftVal = cutItm * 268;
+            $(".bd_long").animate({
+                left: -leftVal
+            }, 500);
+        }
+
+        var timeer = setInterval(autoPlay, 2000);
+        $(".bd_c4l,.bd_c4top").hover(function() {
+            clearInterval(timeer)
+        }, function() {
+            timeer = setInterval(autoPlay, 2000);
+        });
+
+        $(".bd_c4l li").click(function() {
+            cutItm = $(".bd_c4l li").index(this);
+            $(".bd_c4l li").removeClass("bd_cutLi");
+            $(this).addClass("bd_cutLi");
+            var leftVal = cutItm * 268;
+            $(".bd_long").animate({
+                left: -leftVal
+            }, 500);
+        });
+        $(".bd_lbtn").click(function() {
+            cutItm--;
+            if (cutItm < 0) {
+                cutItm = 11;
+            }
+            $(".bd_c4l li").removeClass("bd_cutLi");
+            $(".bd_c4l li").eq(cutItm).addClass("bd_cutLi");
+            var leftVal = cutItm * 268;
+            $(".bd_long").animate({
+                left: -leftVal
+            }, 500);
+        });
+        $(".bd_rbtn").click(function() {
+            cutItm++;
+            if (cutItm > 11) {
+                cutItm = 0;
+            }
+            $(".bd_c4l li").removeClass("bd_cutLi");
+            $(".bd_c4l li").eq(cutItm).addClass("bd_cutLi");
+            var leftVal = cutItm * 268;
+            $(".bd_long").animate({
+                left: -leftVal
+            }, 500);
+        });
+    </script>
+    <!-- 代码 end -->
+</body>
+
+</html>

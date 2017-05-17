@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>关于html5的WebRTC通信</title>
+    <meta charset="UTF-8">
+    <script>
+        //设置本地流
+        var localStream = null;
+        var video = null;
+
+        function hasGetUserMedia() {
+            return (navigator.getUserMedia || navigator.webkitGetUserMedia ||
+                navigator.mozGetUserMedia)
+        }
+
+        function init() {
+            if (hasGetUserMedia()) {
+                //alert("您的浏览器支持getUserMedia方法");
+            } else {
+                //alert("您的浏览器不支持getUserMedia方法");
+                alert("您的浏览器不支持RTC通信");
+                return false;
+            }
+            navigator.getUserMedia = hasGetUserMedia();
+            window.URL = window.URL || window.webKitURL;
+            video = document.getElementById("my_video");
+            console.log(video);
+            //给video添加监听事件
+            video.addEventListener('click', screenShot, false);
+            //video:true,audio:true图像音频同时生效
+            navigator.getUserMedia({
+                video: true,
+                audio: false
+            }, function(stream) {
+                video.src = window.URL.createObjectURL(stream);
+                localStream = stream;
+            }, function(err) {
+                console.log(err);
+            });
+        }
+
+        function screenShot() {
+            var canvas = document.getElementById("canvas");
+            var context = canvas.getContext("2d");
+            if (localStream) {
+                context.drawImage(video, 0, 0, 400, 300);
+                document.getElementById("img").src = canvas.toDataURL('image/png');
+            }
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <div style="text-align:center">
+        <br>
+        <video title="单击截屏" id="my_video" width="400" height="300" autoplay></video>
+
+    </div>
+    <div style="text-align:center">
+        <img src="" id="img"></img>
+        <canvas style="display:none" id="canvas" width="400" height="300"></canvas>
+    </div>
+</body>
+
+</html>

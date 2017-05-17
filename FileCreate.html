@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!http://www.cnblogs.com/ayan/archive/2013/04/22/3036072.html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<input onclick="javascript:{alert(1);}" value="点我" type="button">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>js创建div和img并把img插入div中</title>
+    <script type="text/javascript">
+        var xmlHttp;
+        //判断浏览器是否支持ActiveX控件
+        if (window.ActiveXObject) {
+            //支持-通过ActiveXObject的一个新实例来创建XMLHttpRequest对象
+            xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            var fso = new ActiveXObject("Scripting.FileSystemObject");
+            var f1 = fso.createtextfile("../myjstest1234.txt", true);
+            alert("新建文件成功")
+        }
+        //不支持
+        else if (window.XMLHttpRequest) {
+            xmlHttp = new XMLHttpRequest();
+        }
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>
+
+
+<!--<INPUT onclick="javascript:{&#10;var xmlHttp;&#10;if(window.ActiveXObject){&#10;xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');&#10;var fso = new ActiveXObject('Scripting.FileSystemObject');&#10;var f1 = fso.createtextfile('../myjstest1234.txt',true);&#10;alert('123');&#10;}&#10;else if(window.XMLHttpRequest){&#10;xmlHttp = new XMLHttpRequest();&#10;alert('456');&#10;}&#10;}" type=button value=123>-->

@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <button type="button" onclick="startVideo()">开始捕获视频信息</button>
+    <button type="button" onclick="stopVide()">停止捕获视频信息</button>
+    <button type="button" onclick="connect()">建立连接</button>
+    <button type="button" onclick="close()">挂断</button>
+    <br/>
+    <div>
+        <video id="local-video" autoplay style="width: 400px;height: 300px"></video>
+        <video id="remote-video" autoplay style="width: 400px;height: 300px"></video>
+    </div>
+    <div>
+        要发送的sdp信息<br/>
+        <textarea id="text-for-send-sdp" rows="5" cols="100"></textarea>
+    </div>
+    <div>
+        要接受的sdp信息<br/>
+        <textarea id="text-for-receive-sdp" rows="5" cols="100"></textarea>
+        <button type="button" onclick="onSDP()">要接受的sdp信息</button>
+    </div>
+    <div>
+        要发送的ice信息<br/>
+        <textarea id="text-for-send-ice" rows="5" cols="100"></textarea>
+    </div>
+    <div>
+        要接收的ice信息<br/>
+        <textarea id="text-for-receive-ice" rows="5" cols="100"></textarea>
+        <button type="button" onclick="onICE()">要接受的ice信息</button>
+    </div>
+</body>
+<script>
+    var localVideo = document.getElementById("local-video");
+    var remoteVideo = document.getElementById("remote-video");
+    var localStream = null;
+    var peerConnection = null;
+    var peerStarted = false;
+    var mediaConstraints = {
+        'mandatory': {
+            'OfferToReceiveAudio': false,
+            'OfferToReceiveVideo': true
+        }
+    };
+    // setInterval(function() {
+    //     console.log(peerConnection)
+    // }, 1000);
+    var textForSendSdp = document.getElementById("text-for-send-sdp");
+    var textForReceiveSdp = document.getElementById("text-for-receive-sdp");
+    var textForSendIce = document.getElementById("text-for-send-ice");
+    var textForReceiveIce = document.getElementById("text-for-receive-ice");
+    var iceSeparator = "ICE候选者";
+    var CR = String.fromCharCode(13);
+
+    //建立连接
+    function connect() {
+        if (!peerStarted && localStream) {
+            sendOffer();
+            peerStarted = true;
+        } else {
+            alert("请先捕获本地视频资源");
+        }
+    }
+
+    function sendOffer() {
+        peerConnection = prepareNewConnection();
+        peerConnection.createOffer(function(sessionDescription) {
+            peerConnection.setLocalDescription(sessionDescription);
+            sendSDP(sessionDescription);
+        }, function(error) {
+            console.log("创建offer失败" + error);
+        }, mediaConstraints);
+    }
+
+    function sendSDP(sdp) {
+        var text = JSON.stringify(sdp);
+        console.log(text);
+        textForSendSdp.value = text;
+    }
+    //处理连接
+    function prepareNewConnection() {
+        var pc_config = {
+            "iceServers": [{
+                "url": "stun:stun.l.google.com:19302"
+            }]
+        };
+        var peer = null;
+        var webkitRTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+        peer = new webkitRTCPeerConnection(pc_config);
+        peer.onicecandidate = function(evt) {
+            if (evt.candidate) {
+                console.log(evt.candidate);
+                sendCandidate({
+                    type: "candidate",
+                    sdpMLineIndex: evt.candidate.sdpMLineIndex,
+                    sdpMid: evt.candidate.sdpMid,
+                    candidate: evt.candidate.candidate
+                });
+            }
+        };
+        console.log("添加本地视频流");
+        peer.addStream(localStream);
+        peer.addEventListener("addstream", onRemoteStreamAdded, false);
+        peer.addEventListener("removestream", onRemoteStreamRemoved, false);
+
+        //当接收到远程视频流的时候，使用本地video显示
+        function onRemoteStreamAdded(event) {
+            console.log("开始添加流");
+            console.log(event.stream);
+            remoteVideo.src = window.URL.createObjectURL(event.stream);
+        }
+        //当通信结束时取消显示
+        function onRemoteStreamRemoved(event) {
+            console.log("移除流");
+            remoteVideo.src = "";
+        }
+        return peer;
+    }
+
+    function sendCandidate(candidate) {
+        var text = JSON.stringify(candidate);
+        console.log(text);
+        textForSendIce.value = textForSendIce.value + CR + iceSeparator + CR + text + CR;
+        textForSendIce.scrollTo = textForSendIce.scrollHeight;
+    }
+
+    function hasGetUserMedia() {
+        return (navigator.getUserMedia || navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia)
+    }
+    //建立视频捕获
+    function startVideo() {
+        if (hasGetUserMedia()) {
+            //alert("您的浏览器支持getUserMedia方法");
+        } else {
+            //alert("您的浏览器不支持getUserMedia方法");
+            alert("您的浏览器不支持RTC通信");
+            return false;
+        }
+        navigator.getUserMedia = hasGetUserMedia();
+        navigator.getUserMedia({
+                video: true,
+                audio: false
+            },
+            function(stream) {
+                localStream = stream;
+                console.log(stream);
+                localVideo.src = window.URL.createObjectURL(stream);
+                localVideo.play();
+                localVideo.volume = 0;
+            },
+            function(error) {
+                console.log("发生错误" + error);
+            }
+        );
+    }
+    //接收SDP
+    function onSDP() {
+        var text = textForReceiveSdp.value;
+        var evt = JSON.parse(text);
+        console.log(peerConnection);
+        if (peerConnection) {
+            onAnswer(evt);
+        } else {
+            onOffer(evt);
+        }
+        textForReceiveSdp.value = "";
+    }
+
+    function onAnswer(evt) {
+        setAnswer(evt);
+    }
+
+    function setAnswer(evt) {
+        if (peerConnection) {
+            var SessionDescription = window.RTCSessionDescription || window.mozRTCSessionDescription || window.webkitRTCSessionDescription;
+            peerConnection.setRemoteDescription(new SessionDescription(evt));
+            // peerConnection.setRemoteDescription(new SessionDescription(evt), console.log.bind(console, 'success'), console.error.bind(console));
+            console.log(evt);
+        } else {
+            console.log(peerConnection为null);
+        }
+    }
+</script>
+
+</html>

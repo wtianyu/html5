@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8" />
+
+<head>
+    <title>CSS3</title>
+    <link rel="stylesheet" type="text/css" href="css/publicCss3.css" />
+</head>
+
+<script>
+    // var x, y, n = 0,
+    //     ny = 0,
+    //     rotINT, rotYINT
+
+    // function rotateDIV() {
+    //     x = document.getElementById("rotate2D")
+    //     clearInterval(rotINT)
+    //     rotINT = setInterval("startRotate()", 10)
+    // }
+
+    // function rotateYDIV() {
+    //     y = document.getElementById("rotate3D")
+    //     clearInterval(rotYINT)
+    //     rotYINT = setInterval("startYRotate()", 10)
+    // }
+
+    // function startRotate() {
+    //     n = n + 1
+    //     x.style.transform = "rotate(" + n + "deg)"
+    //     x.style.webkitTransform = "rotate(" + n + "deg)"
+    //     x.style.OTransform = "rotate(" + n + "deg)"
+    //     x.style.MozTransform = "rotate(" + n + "deg)"
+    //     if (n == 180 || n == 360) {
+    //         clearInterval(rotINT)
+    //         if (n == 360) {
+    //             n = 0
+    //         }
+    //     }
+    // }
+
+    // function startYRotate() {
+    //     ny = ny + 1
+    //     y.style.transform = "rotateY(" + ny + "deg)"
+    //     y.style.webkitTransform = "rotateY(" + ny + "deg)"
+    //     y.style.OTransform = "rotateY(" + ny + "deg)"
+    //     y.style.MozTransform = "rotateY(" + ny + "deg)"
+    //     if (ny == 180 || ny >= 360) {
+    //         clearInterval(rotYINT)
+    //         if (ny >= 360) {
+    //             ny = 0
+    //         }
+    //     }
+    // }
+</script>
+
+<body>
+    <div style="display:none" class="border" title="边框区域">
+        <div class="borderRadius" title="圆角边框">border-radius圆角区域</div>
+        <div style="margin-top:10px" class="borderShadow" title="阴影边框"></div>
+        <div style="margin-top:10px" class="borderImage1" title="图像边框重复">图像边框重复</div>
+        <div style="margin-top:10px" class="borderImage2" title="图像边框拉伸">图像边框拉伸</div>
+    </div>
+    <div style="margin-top:10px;display:none" class="colorClass">
+        <div class="grad1" title="渐变颜色上下"></div>
+        <div class="grad2" title="渐变颜色左右"></div>
+    </div>
+    <div style="margin-top:10px" class="text">
+        <div class="text1" title="文字阴影">文字阴影</div>
+        文字的显示和隐藏效果查看<br/>
+        <a href="http://www.runoob.com/try/try.php?filename=trycss3_text-overflow">overflow和ellipsis</a>
+    </div>
+    <div class="div_3d">
+        <div id="rotate2D">2D rotate</div>
+        <!--onmouseover="rotateDIV()"-->
+        <div id="rotate3D">3D rotate</div>
+        <!--onmouseover="rotateYDIV()"-->
+        <div class="animate" id="animate3">CSS3过渡</div>
+    </div>
+</body>
+
+</html>

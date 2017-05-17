@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8" />
+<title>html的拖拽演示</title>
+
+<body style="background: #426fc5">
+    <div id="dragDiv" style="width: 100%; height: 500px;" ondrag="ondraging(event)" ondragover="allowDrag(event)" ondrop="ondropLast(event)">
+        <img id="dragImg" style="cursor: pointer" src="http://www.wtianyu.com/Public/img/girl.jpg" width="120px" height="150px" ondragstart="ondragstartStart(event)">
+    </div>
+</body>
+<script>
+    var mouse_x;
+    var mouse_y;
+
+    function allowDrag(ev) {
+        ev.preventDefault();
+    }
+
+    function ondropLast(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("Text");
+        var img = document.getElementById(data);
+        img.style.marginLeft = (mouse_x - 20) + "px";
+        img.style.marginTop = (mouse_y - 30) + "px";
+        console.log(img);
+        ev.target.appendChild(img);
+    }
+
+    function ondraging(ev) {
+        DisplayCoord(ev);
+    }
+
+    function ondragstartStart(ev) {
+        ev.dataTransfer.setData("Text", ev.target.id);
+    }
+
+    function getX(obj) {
+        var parObj = obj;
+        var left = obj.offsetLeft;
+        while (parObj = parObj.offsetParent) {
+            left += parObj.offsetLeft;
+        }
+        return left;
+    }
+
+    function getY(obj) {
+        var parObj = obj;
+        var top = obj.offsetTop;
+        while (parObj = parObj.offsetParent) {
+            top += parObj.offsetTop;
+        }
+        return top;
+    }
+
+    function DisplayCoord(event) {
+        var top, left, oDiv;
+        oDiv = document.getElementById("dragDiv");
+        top = getY(oDiv);
+        left = getX(oDiv);
+        mouse_x = (event.clientX - left + document.body.scrollLeft);
+        mouse_y = (event.clientY - top + document.body.scrollTop);
+        console.log(mouse_x + ":" + mouse_y);
+    }
+</script>
+
+</html>

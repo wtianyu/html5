@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>关于html5的Web Storage</title>
+<meta charset="UTF-8">
+<script>
+
+    //sessionStorage的保存
+    function saveSessionStorage(id){
+        var msg = document.getElementById(id);
+        sessionStorage.setItem("sessionMsg",msg.value);
+        //或者sessionStorage.msg = msg.value
+    }
+    function loadSessionStorage(id){
+        var msg = document.getElementById(id);
+        //或者sessionStorage.msg
+        msg.innerHTML+= sessionStorage.getItem("sessionMsg");
+    }
+    //localStorage的保存
+    function saveLocalStorage(id){
+        var msg = document.getElementById(id);
+        localStorage.setItem("localMsg",msg.value);
+        //或者sessionStorage.msg = msg.value
+    }
+    function loadLocalStorage(id){
+        var msg = document.getElementById(id);
+        msg.innerHTML+= localStorage.getItem("localMsg");
+    }
+    function clearStorage(){
+        localStorage.clear();
+        sessionStorage.clear();
+    }
+</script>
+</head>
+<body>
+    <p id='msg'>sessionStorage的测试：</p>
+    <input type="text" id="input">
+    <input type="button" value="保存数据" onclick="saveSessionStorage('input')">
+    <input type="button" value="读取数据" onclick="loadSessionStorage('msg')">
+    <p id='msg2'>localStorage的测试：</p>
+    <input type="text" id="input2">
+    <input type="button" value="保存数据" onclick="saveLocalStorage('input2')">
+    <input type="button" value="读取数据" onclick="loadLocalStorage('msg2')">
+    <br>
+    <input type="button" value="清空数据" onclick="clearStorage()">
+</body>
+</html>
